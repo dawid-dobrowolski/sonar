@@ -5,10 +5,11 @@ import (
 	scopes "app/Infrastructure/Scopes"
 	"app/Models"
 	"errors"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"
 )
+
+const ProductNotFound = "Product not found"
 
 func GetAllProducts(c echo.Context) error {
 	db := dbContext.CreateDbConnection()
@@ -24,7 +25,7 @@ func GetProduct(c echo.Context) error {
 
 	if err != nil {
 		if errors.Is(err.Error, gorm.ErrRecordNotFound) {
-			return c.JSON(http.StatusNotFound, "Product not found")
+			return c.JSON(http.StatusNotFound, ProductNotFound)
 		}
 	}
 
@@ -38,7 +39,7 @@ func GetExpensiveProducts(c echo.Context) error {
 
 	if err != nil {
 		if errors.Is(err.Error, gorm.ErrRecordNotFound) {
-			return c.JSON(http.StatusNotFound, "Product not found")
+			return c.JSON(http.StatusNotFound, ProductNotFound)
 		}
 	}
 
@@ -63,7 +64,7 @@ func DeleteProduct(c echo.Context) error {
 
 	if err != nil {
 		if errors.Is(err.Error, gorm.ErrRecordNotFound) {
-			return c.JSON(http.StatusNotFound, "Product not found")
+			return c.JSON(http.StatusNotFound, ProductNotFound)
 		}
 	}
 
